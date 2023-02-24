@@ -1,0 +1,32 @@
+{
+  "name": "teamprofilegenerator",
+  "version": "1.0.0",
+  "description": "Application asks the user questions and generates a team profile",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasptharakan/TeamProfileGenerator.git"
+  },
+  "keywords": [
+    "TeamProfile",
+    "TeamChart"
+  ],
+  "author": "Thomas Tharakan",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/thomasptharakan/TeamProfileGenerator/issues"
+  },
+  "homepage": "https://github.com/thomasptharakan/TeamProfileGenerator#readme",
+  "devDependencies": {
+    "jest": "^29.4.3"
+  },
+  "dependencies": {
+    "inquirer": "^6.5.0"
+  }
+}
