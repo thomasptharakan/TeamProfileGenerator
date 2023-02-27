@@ -30,12 +30,14 @@ const getManagerDetails = () => {
         {
             name: "mgrEmail",
             type : "input",
-            message: "Enter Managers Email ID"
+            message: "Enter Managers Email ID",
+            validate: validateEmail
         },
         {
             name: "mgrOfficeNumber",
-            type : "number",
-            message: "Enter Managers Office Number"
+            type : "input",
+            message: "Enter Managers Office Number",
+            validate: (input) => (isNaN(input))?'Enter a valid Number!!' : true
         },
     
     ]).then((answers) => {
@@ -44,11 +46,10 @@ const getManagerDetails = () => {
     
 };
 
-// Code from https://www.w3schools.com/js/js_regexp.asp
-// Regex from https://regexr.com/3f8cm
-function check(name){
-    nameRegEx = '/b([A-ZÀ-ÿ][-,a-z. \']+[ ]*)+/i';
-    (nameRegEx.test(name))?true:'Not a valid name.';
-}
+// https://www.w3docs.com/snippets/javascript/how-to-validate-an-e-mail-using-javascript.html
+const validateEmail = (email) => {
+    const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return (res.test(String(email).toLowerCase()))? true : 'Enter Valid Email';
+};
 
 getManagerDetails();
