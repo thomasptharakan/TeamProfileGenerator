@@ -166,6 +166,7 @@ function saveFile(html) {
                 }
               });
         }else{
+            //Write File
             fs.writeFile(outputPath, html, (err) => {
                 (err)? `Error creating File ${err}` : 'Html file created' ;
             });
