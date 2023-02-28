@@ -16,133 +16,166 @@ const { generateKey } = require("crypto");
 //Declare a team variable
 let Team = [];
 
-// TODO: Write Code to gather information about the development team members, and render the HTML file.
-//https://javascript.plainenglish.io/how-to-inquirer-js-c10a4e05ef1f
-const getManagerDetails = () => {
-    inquirer.prompt([
-        {
-            name: "mgrName",
-            type : "input",
-            message: "Enter Managers Name",
-        },
-        {
-            name: "mgrID",
-            type : "input",
-            message: "Enter Managers Employee ID"
-        },
-        {
-            name: "mgrEmail",
-            type : "input",
-            message: "Enter Managers Email ID",
-            validate: validateEmail
-        },
-        {
-            name: "mgrOfficeNumber",
-            type : "input",
-            message: "Enter Managers Office Number",
-            validate: (input) => (isNaN(input))?'Enter a valid Number!!' : true
-        },
-    
-    ]).then((answers) => {
-        const {name,empId,email,ofcNumber} = answers;
-        const emp = new Manager(name,empId,email,ofcNumber);
-        Team.push(emp);
-    });
-    
+// https://www.w3docs.com/snippets/javascript/how-to-validate-an-e-mail-using-javascript.html
+const validateEmail = (email) => {
+    const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return (res.test(String(email).toLowerCase())) ? true : 'Enter Valid Email';
 };
 
+// TODO: Write Code to gather information about the development team members, and render the HTML file.
+//https://javascript.plainenglish.io/how-to-inquirer-js-c10a4e05ef1f
 
-const getEngineerDetails = () => {
-    inquirer.prompt([
-        {
-            name: "egrName",
-            type : "input",
-            message: "Enter Engineer's Name",
-        },
-        {
-            name: "egrID",
-            type : "input",
-            message: "Enter Engineers Employee ID"
-        },
-        {
-            name: "egrEmail",
-            type : "input",
-            message: "Enter Engineers Email ID",
-            validate: validateEmail
-        },
-        {
-            name: "egrGitHub",
-            type : "input",
-            message: "Enter Engineers Github Username",
-        },
-    ]).then((answers) => {
-        const {name,empId,email,gitHub} = answers;
-        const emp = new Engineer(name,empId,email,gitHub);
+
+const managerQuestions = [
+    {
+        name: "name",
+        type: "input",
+        message: "Enter Managers Name",
+    },
+    {
+        name: "empId",
+        type: "input",
+        message: "Enter Managers Employee ID"
+    },
+    {
+        name: "email",
+        type: "input",
+        message: "Enter Managers Email ID",
+        validate: validateEmail
+    },
+    {
+        name: "ofcNumber",
+        type: "input",
+        message: "Enter Managers Office Number",
+        validate: (input) => (isNaN(input)) ? 'Enter a valid Number!!' : true
+    },
+
+];
+const engineerQuestions = [
+    {
+        name: "name",
+        type: "input",
+        message: "Enter Engineer's Name",
+    },
+    {
+        name: "empId",
+        type: "input",
+        message: "Enter Engineers Employee ID"
+    },
+    {
+        name: "email",
+        type: "input",
+        message: "Enter Engineers Email ID",
+        validate: validateEmail
+    },
+    {
+        name: "gitHub",
+        type: "input",
+        message: "Enter Engineers Github Username",
+    },
+];
+
+
+const InternQuestions = [
+    {
+        name: "name",
+        type: "input",
+        message: "Enter Intern's Name",
+    },
+    {
+        name: "empId",
+        type: "input",
+        message: "Enter Intern's Employee ID"
+    },
+    {
+        name: "email",
+        type: "input",
+        message: "Enter Intern's Email ID",
+        validate: validateEmail
+    },
+    {
+        name: "intSchool",
+        type: "input",
+        message: "Enter Intern's School Name",
+    },
+];
+
+
+function buildTeam() {
+
+    //Add Manager
+    inquirer.prompt(managerQuestions).then((answers) => {
+        let { name, empId, email, ofcNumber } = answers;
+        let emp = new Manager(name, empId, email, ofcNumber);
+        console.log(emp);
         Team.push(emp);
+        //Add Additional Employees
+        addEmployees();
     });
-    
-}
 
-const getInternDetails = () => {
+};
+
+function addEmployees(){
     inquirer.prompt([
         {
-            name: "intName",
-            type : "input",
-            message: "Enter Intern's Name",
-        },
-        {
-            name: "intID",
-            type : "input",
-            message: "Enter Intern's Employee ID"
-        },
-        {
-            name: "intEmail",
-            type : "input",
-            message: "Enter Intern's Email ID",
-            validate: validateEmail
-        },
-        {
-            name: "intSchool",
-            type : "input",
-            message: "Enter Intern's School Name",
+            name: "choice",
+            type: "list",
+            choices: ['Add an engineer', 'Add an intern', 'Finish building the team'],
         },
     ]).then((answers) => {
-        const {name,empId,email,intSchool} = answers;
-        const emp = new Intern(name,empId,email,intSchool);
-        Team.push(emp);
-    });   
+        //Add Engineer
+        if (answers.choice === 'Add an engineer') {
+            inquirer.prompt(engineerQuestions).then((answers) => {
+                let { name, empId, email, gitHub } = answers;
+                let emp = new Engineer(name, empId, email, gitHub);
+                Team.push(emp);
+                addEmployees();
+            });
+        } else if (answers.choice === 'Add an intern') {
+            //Add Intern
+            inquirer.prompt(InternQuestions).then((answers) => {
+                let { name, empId, email, intSchool } = answers;
+                let emp = new Intern(name, empId, email, intSchool);
+                Team.push(emp);
+                addEmployees();
+            });
+        } else {
+            //Render html
+            console.log(Team);
+            var opHtml = render(Team);
+            //Save Html File to Output Dir
+            saveFile(opHtml);
+        }
+    });
+
 }
 
-const addNewEmployee = () => {
-    inquirer.prompt([
-        {
-            name: "intName",
-            type : "list",
-            choices: ['Add an engineer','Add an intern','Finish building the team'],
-        },
-    ]).then((answers) => {
-        if (answers.intName === 'Add an engineer'){
-            getEngineerDetails();
-            addNewEmployee();
-        }else if (answers.intName === 'Add an intern'){
-            getInternDetails();
-            addNewEmployee();
+
+function saveFile(html) {
+    //https://attacomsian.com/blog/nodejs-check-if-directory-exists?utm_content=cmp-true
+    fs.access(OUTPUT_DIR, err => {
+        if (err){
+            fs.mkdir(OUTPUT_DIR, (err) => {
+                if (err){
+                    console.log(err);
+                } else{
+                    fs.writeFile(outputPath, html, (err) => {
+                        (err)? 'Html file created' : `Error creating File ${err}`;
+                    });
+                }
+              });
+        }else{
+            fs.writeFile(outputPath, html, (err) => {
+                (err)? 'Html file created' : `Error creating File ${err}`;
+            });
         }
     });
 }
 
-// https://www.w3docs.com/snippets/javascript/how-to-validate-an-e-mail-using-javascript.html
-const validateEmail = (email) => {
-    const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return (res.test(String(email).toLowerCase()))? true : 'Enter Valid Email';
-};
-
 
 // Build Team
-// getManagerDetails();
-// addNewEmployee();
+buildTeam();
 
-// Render Html
-// var opHtml = render(Team);
 
-//Write to File
+
+
