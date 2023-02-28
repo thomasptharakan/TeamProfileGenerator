@@ -4,7 +4,7 @@
 The application makes use of node, js and html to take information about employees on a software engineering team and then generate an html webpage that displays summaries for each person. The application makes use of jest framework for testing the application.
 
 
-Link to hosted site : https://thomasptharakan.github.io/TeamProfileGenerator/
+Link to code : https://github.com/thomasptharakan/TeamProfileGenerator
 
 
 
@@ -88,7 +88,8 @@ The following mockup provides an overview of the output html generated:
 Licensed under the [GPL](LICENSE.txt) license
 
 ## Credits
-
+1. https://attacomsian.com/blog/nodejs-check-if-directory-exists?utm_content=cmp-true
+2. https://javascript.plainenglish.io/how-to-inquirer-js-c10a4e05ef1f
 
 
 

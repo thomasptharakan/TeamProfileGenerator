@@ -25,7 +25,7 @@ const validateEmail = (email) => {
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 //https://javascript.plainenglish.io/how-to-inquirer-js-c10a4e05ef1f
 
-
+//Manager Questions
 const managerQuestions = [
     {
         name: "name",
@@ -51,6 +51,7 @@ const managerQuestions = [
     },
 
 ];
+//Engineer Questions
 const engineerQuestions = [
     {
         name: "name",
@@ -75,7 +76,7 @@ const engineerQuestions = [
     },
 ];
 
-
+//Intern Questions
 const InternQuestions = [
     {
         name: "name",
@@ -100,9 +101,8 @@ const InternQuestions = [
     },
 ];
 
-
+//Build the Team by Adding to the Team Array
 function buildTeam() {
-
     //Add Manager
     inquirer.prompt(managerQuestions).then((answers) => {
         let { name, empId, email, ofcNumber } = answers;
@@ -114,8 +114,9 @@ function buildTeam() {
     });
 
 };
-
+//Recursive function for adding additonal Employees
 function addEmployees(){
+    //Request action for user to add Engineer/Intern or end
     inquirer.prompt([
         {
             name: "choice",
@@ -153,11 +154,13 @@ function addEmployees(){
 
 function saveFile(html) {
     //https://attacomsian.com/blog/nodejs-check-if-directory-exists?utm_content=cmp-true
+    //Checks if Directory exists
     fs.access(OUTPUT_DIR, err => {
         if (err){
+            //Director does not exist create Directory
             fs.mkdir(OUTPUT_DIR, (err) => {
                 if (err){
-                    console.log(err);
+                    console.log(`Error Creating Directory ${err}`);
                 } else{
                     fs.writeFile(outputPath, html, (err) => {
                         (err)? 'Html file created' : `Error creating File ${err}`;
@@ -166,7 +169,7 @@ function saveFile(html) {
               });
         }else{
             fs.writeFile(outputPath, html, (err) => {
-                (err)? 'Html file created' : `Error creating File ${err}`;
+                (err)? `Error creating File ${err}` : 'Html file created' ;
             });
         }
     });
