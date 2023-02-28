@@ -107,7 +107,6 @@ function buildTeam() {
     inquirer.prompt(managerQuestions).then((answers) => {
         let { name, empId, email, ofcNumber } = answers;
         let emp = new Manager(name, empId, email, ofcNumber);
-        console.log(emp);
         Team.push(emp);
         //Add Additional Employees
         addEmployees();
@@ -142,7 +141,6 @@ function addEmployees(){
             });
         } else {
             //Render html
-            console.log(Team);
             var opHtml = render(Team);
             //Save Html File to Output Dir
             saveFile(opHtml);

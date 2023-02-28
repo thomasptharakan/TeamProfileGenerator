@@ -88,7 +88,7 @@ The following mockup provides an overview of the output html generated:
 Licensed under the [GPL](LICENSE.txt) license
 
 ## Credits
-1. https://attacomsian.com/blog/nodejs-check-if-directory-exists?utm_content=cmp-true
+1. https://attacomsian.com/blog/nodejs-check-if-directory-exists
 2. https://javascript.plainenglish.io/how-to-inquirer-js-c10a4e05ef1f
 
 
